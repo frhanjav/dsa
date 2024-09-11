@@ -40,6 +40,7 @@ void merge_sort(vector<int> &arr, int low, int high) {
 
 int main() {
     int n;
+    cout << "Enter the number of elements: " << endl;
     cin >> n;
     int input;
     vector<int> arr;
@@ -47,7 +48,13 @@ int main() {
         cin >> input;
         arr.push_back(input);
     }
+    cout << "Before Sorting: " << endl;
+    for (int i = 0; n > i; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
     merge_sort(arr ,0, n-1);
+    cout << "After Sorting: " << endl;
     for (int i = 0; i < n; i++)
     {
         cout << arr[i] << " ";
