@@ -1,58 +1,64 @@
-#include <iostream>
-#include <queue>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-void bfs(vector<vector<int>> &adj, int s)
+vector<int> bfsOfGraph(int V, vector<int> adj[])
 {
-  queue<int> q;
+	int vis[V];
+	vis[V] = {0};
+	vis[1] = 1;
+	queue<int> q;
+	q.push(1);
+	vector<int> bfs;
+	while (!q.empty())
+	{
+		int node = q.front();
+		q.pop();
+		bfs.push_back(node);
 
-  vector<bool> visited(adj.size(), false);
-
-  visited[s] = true;
-  q.push(s);
-
-  while (!q.empty())
-  {
-
-    int curr = q.front();
-    q.pop();
-    cout << curr << " ";
-
-    for (vector<int>::iterator it = adj[curr].begin(); it != adj[curr].end(); ++it)
-    {
-      int x = *it;
-      if (!visited[x])
-      {
-        visited[x] = true;
-        q.push(x);
-      }
-    }
-  }
-}
-
-void addEdge(vector<vector<int>> &adj,
-             int u, int v)
-{
-  adj[u].push_back(v);
-  adj[v].push_back(u);
+		for (auto it : adj[node])
+		{
+			if (!vis[it])
+			{
+				vis[it] = 1;
+				q.push(it);
+			}
+		}
+	}
+	return bfs;
 }
 
 int main()
 {
-  int V = 5;
+	int n, m;
+	cin >> n >> m;
+	vector<int> adj[n + 1];
+	// vector<pair<int, int>> adj[n + 1]; // Adjacency list with weights
+	for (int i = 0; i < m; i++)
+	{
+		int u, v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		// adj[u].push_back({v, w});
+		adj[v].push_back(u);
+		// adj[v].push_back({u, w}); // Store u and weight w (undirected graph)
+	}
 
-  vector<vector<int>> adj(V);
+	// Printing the adjacency list with weights
+	for (int i = 1; i <= n; i++)
+	{
+		cout << "Node " << i << ": ";
+		for (auto neighbor : adj[i]) // auto allows the compiler to deduce the type of it automatically
+		{
+			cout << neighbor << " ";
+		}
+		cout << endl;
+	}
 
-  addEdge(adj, 0, 1);
-  addEdge(adj, 0, 2);
-  addEdge(adj, 1, 3);
-  addEdge(adj, 1, 4);
-  addEdge(adj, 2, 4);
-
-  cout << "BFS starting from 0 : \n"
-       << endl;
-  bfs(adj, 0);
-
-  return 0;
+	vector<int> result = bfsOfGraph(n + 1, adj);
+	for (int node : result)
+	{
+		cout << node << " ";
+	}
+	cout << endl;
+	return 0;
 }
